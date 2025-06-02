@@ -1,5 +1,5 @@
 // ===============================
-// ALU.v
+// ALU.v (todo embebido)
 // ===============================
 module ALU (
     input  wire [6:0] A,
@@ -11,40 +11,78 @@ module ALU (
     output wire       Zero,
     output wire       Negative
 );
-    wire [6:0] out_sum, out_rest, out_and, out_or, out_shl, out_shr;
-    wire co_sum, ov_sum, co_rest, ov_rest;
 
-    Sum_7bit sumador (
-        .A(A), .B(B), .Cin(1'b0),
-        .Result(out_sum),
-        .CarryOut_sum(co_sum),
-        .Overflow_sum(ov_sum)
-    );
+    // === Submódulo Sum_7bit ===
+    wire [6:0] sum_result;
+    wire sum_carryout, sum_overflow;
+    wire [7:0] sum_temp = A + B + 1'b0;
+    assign sum_result = sum_temp[6:0];
+    assign sum_carryout = sum_temp[7];
+    assign sum_overflow = (A[6] ~^ B[6]) & (A[6] ^ sum_result[6]);
 
-    Rest_7bit restador (
-        .A(A), .B(B),
-        .Result(out_rest),
-        .CarryOut_rest(co_rest),
-        .Overflow_rest(ov_rest)
-    );
+    // === Submódulo Rest_7bit ===
+    wire [6:0] rest_result;
+    wire rest_carryout, rest_overflow;
+    wire [6:0] B_neg = ~B;
+    wire [7:0] rest_temp = A + B_neg + 1'b1;
+    assign rest_result = rest_temp[6:0];
+    assign rest_carryout = rest_temp[7];
+    assign rest_overflow = (A[6] ~^ B_neg[6]) & (A[6] ^ rest_result[6]);
 
-    Funcion_AND and_gate (.A(A), .B(B), .OUT(out_and));
-    Funcion_OR  or_gate  (.A(A), .B(B), .OUT(out_or));
-    Shift_Left  shl      (.B(B), .OUT(out_shl));
-    Shift_Right shr      (.B(B), .OUT(out_shr));
+    // === Submódulo Funcion_AND ===
+    wire [6:0] and_result = A & B;
 
+    // === Submódulo Funcion_OR ===
+    wire [6:0] or_result = A | B;
+
+    // === Submódulo Shift_Left ===
+    wire [6:0] shl_result = B << 1;
+
+    // === Submódulo Shift_Right ===
+    wire [6:0] shr_result = B >> 1;
+
+    // === Lógica principal ===
     always @(*) begin
         case (OpSel)
-            3'b000: begin Result = out_sum;  CarryOut_ALU = co_sum;  Overflow_ALU = ov_sum;  end
-            3'b001: begin Result = out_rest; CarryOut_ALU = co_rest; Overflow_ALU = ov_rest; end
-            3'b010: begin Result = out_and;  CarryOut_ALU = 1'b0;    Overflow_ALU = 1'b0;    end
-            3'b011: begin Result = out_or;   CarryOut_ALU = 1'b0;    Overflow_ALU = 1'b0;    end
-            3'b100: begin Result = out_shl;  CarryOut_ALU = 1'b0;    Overflow_ALU = 1'b0;    end
-            3'b101: begin Result = out_shr;  CarryOut_ALU = 1'b0;    Overflow_ALU = 1'b0;    end
-            default: begin Result = 7'b0;    CarryOut_ALU = 1'b0;    Overflow_ALU = 1'b0;    end
+            3'b000: begin
+                Result = sum_result;
+                CarryOut_ALU = sum_carryout;
+                Overflow_ALU = sum_overflow;
+            end
+            3'b001: begin
+                Result = rest_result;
+                CarryOut_ALU = rest_carryout;
+                Overflow_ALU = rest_overflow;
+            end
+            3'b010: begin
+                Result = and_result;
+                CarryOut_ALU = 1'b0;
+                Overflow_ALU = 1'b0;
+            end
+            3'b011: begin
+                Result = or_result;
+                CarryOut_ALU = 1'b0;
+                Overflow_ALU = 1'b0;
+            end
+            3'b100: begin
+                Result = shl_result;
+                CarryOut_ALU = 1'b0;
+                Overflow_ALU = 1'b0;
+            end
+            3'b101: begin
+                Result = shr_result;
+                CarryOut_ALU = 1'b0;
+                Overflow_ALU = 1'b0;
+            end
+            default: begin
+                Result = 7'b0;
+                CarryOut_ALU = 1'b0;
+                Overflow_ALU = 1'b0;
+            end
         endcase
     end
 
     assign Zero     = (Result == 7'b0);
     assign Negative = Result[6];
+
 endmodule
