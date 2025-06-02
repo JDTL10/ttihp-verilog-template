@@ -1,40 +1,27 @@
-# SPDX-FileCopyrightText: © 2024 Tiny Tapeout
-# SPDX-License-Identifier: Apache-2.0
-
-import cocotb
-from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles
-
-
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
 
-    # Set the clock period to 10 us (100 KHz)
     clock = Clock(dut.clk, 10, units="us")
     cocotb.start_soon(clock.start())
 
     # Reset
-    dut._log.info("Reset")
     dut.ena.value = 1
     dut.ui_in.value = 0
-    dut.uio_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
 
-    dut._log.info("Test project behavior")
+    # Example test: A=5, B=3, OpSel=00 (sum)
+    A = 5  # 4'b0101
+    B = 3  # 4'b0011
+    OpSel = 0b00  # inside A[1:0]
+    ui_in_value = (B << 4) | A  # pack as [B][A]
+    dut.ui_in.value = ui_in_value
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
-
-    # Wait for one clock cycle to see the output values
     await ClockCycles(dut.clk, 1)
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
+    expected_result = (A + B) & 0b1111  # only 4 LSB
+    expected_output = expected_result
 
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    assert dut.uo_out.value.integer & 0b1111 == expected_output, f"Expected {expected_output}, got {dut.uo_out.value.integer & 0b1111}"
