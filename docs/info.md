@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+Se trata de la construcción de una ALU capaz de ejecutar diversas operaciones, la cuál será definida mediante un selector
 
 ## How to test
 
-Explain how to use your project
+Haciendo uso de una combinación de bits se selecciona la operación que se desea ejecutar
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Hace uso de pulsadores o switch com entrada; mientras en la salida hace uso de LEDs
