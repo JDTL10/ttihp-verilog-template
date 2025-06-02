@@ -1,58 +1,54 @@
 # Tiny Tapeout project information
 project:
-  title:        "ALU"      # Project title
-  author:       "JDTL10"      # Your name
-  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  "ALU con 5 operaciones básicas"      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  title:        "ALU"
+  author:       "JDTL10"
+  discord:      ""
+  description:  "ALU con 5 operaciones básicas"
+  language:     "Verilog"
+  clock_hz:     0
 
-  # How many tiles your design occupies? A single tile is about 167x108 uM.
-  tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
-
-  # Your top module name must start with "tt_um_". Make it unique by including your github username:
+  tiles: "1x1"
   top_module:  "tt_um_JDTL10"
 
-  # List your project's source files here.
-  # Source files must be in ./src and you must list each source file separately, one per line.
-  # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    -"ALU.v"
-    -"tt_um_JDTL10.v"
+    - "ALU.v"
+    - "Sum_7bit.v"
+    - "Rest_7bit.v"
+    - "Funcion_AND.v"
+    - "Funcion_OR.v"
+    - "Shift_Left.v"
+    - "Shift_Right.v"
+    - "tt_um_JDTL10.v"
 
-# The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
-# This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
- # Inputs
-  ui[0]: "A"
-  ui[1]: "B"
-  ui[2]: "OpSel"
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  # Inputs (ui_in)
+  ui[0]: "B0"
+  ui[1]: "B1"
+  ui[2]: "B2"
+  ui[3]: "B3"
+  ui[4]: "B4"
+  ui[5]: "OpSel0"
+  ui[6]: "OpSel1"
+  ui[7]: "OpSel2"
 
-  # Outputs
-  uo[0]: "Result"
-  uo[1]: "CarryOut"
-  uo[2]: "Overflow"
-  uo[3]: "Zero"
-  uo[4]: "Negative"
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  # Outputs (uo_out)
+  uo[0]: "Result0"
+  uo[1]: "Result1"
+  uo[2]: "Result2"
+  uo[3]: "Result3"
+  uo[4]: "Result4"
+  uo[5]: "Result5"
+  uo[6]: "Result6"
+  uo[7]: "CarryOut"
 
-  # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
+  # Bidirectional pins (uio_in / uio_out)
+  uio[0]: "A0"
+  uio[1]: "A1"
+  uio[2]: "A2"
+  uio[3]: "A3"
+  uio[4]: "A4"
+  uio[5]: "A5"
+  uio[6]: "A6"
   uio[7]: ""
 
-
-# Do not change!
 yaml_version: 6
