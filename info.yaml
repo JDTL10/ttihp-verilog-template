@@ -23,37 +23,36 @@ project:
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
- # Inputs (ui_in[7:0])
-  ui[0]: "OpSel[0]"       # Bit 0 del selector de operación
-  ui[1]: "OpSel[1]"       # Bit 1 del selector de operación
-  ui[2]: "OpSel[2]"       # Bit 2 del selector de operación
-  ui[3]: "A[0]"           # Bit 0 del operando A
-  ui[4]: "A[1]"           # Bit 1 del operando A
-  ui[5]: "A[2]"           # Bit 2 del operando A
-  ui[6]: "A[3]"           # Bit 3 del operando A
-  ui[7]: "A[4]"           # Bit 4 del operando A
+ # Inputs
+  ui[0]: "A"
+  ui[1]: "B"
+  ui[2]: "OpSel"
+  ui[3]: ""
+  ui[4]: ""
+  ui[5]: ""
+  ui[6]: ""
+  ui[7]: ""
 
-  # Bidirectional IOs (uio_in/out/oe[7:0])
-  uio[0]: "A[5]"          # Bit 5 del operando A
-  uio[1]: "A[6]"          # Bit 6 del operando A
-  uio[2]: "B[0]"          # Bit 0 del operando B
-  uio[3]: "B[1]"          # Bit 1 del operando B
-  uio[4]: "B[2]"          # Bit 2 del operando B
-  uio[5]: "B[3]"          # Bit 3 del operando B
-  uio[6]: "B[4]"          # Bit 4 del operando B
-  uio[7]: "B[5]"          # Bit 5 del operando B
-  # Nota: B[6] puede definirse dentro del ALU si es constante o manejarse internamente en uio
+  # Outputs
+  uo[0]: "Result"
+  uo[1]: "CarryOut"
+  uo[2]: "Overflow"
+  uo[3]: "Zero"
+  uo[4]: "Negative"
+  uo[5]: ""
+  uo[6]: ""
+  uo[7]: ""
 
-  # Outputs (uo_out[7:0])
-  uo[0]: "Result[0]"      # Bit 0 del resultado
-  uo[1]: "Result[1]"      # Bit 1 del resultado
-  uo[2]: "Result[2]"      # Bit 2 del resultado
-  uo[3]: "Result[3]"      # Bit 3 del resultado
-  uo[4]: "Result[4]"      # Bit 4 del resultado
-  uo[5]: "Result[5]"      # Bit 5 del resultado
-  uo[6]: "Result[6]"      # Bit 6 del resultado
-  uo[7]: "Status"         # Bandera combinada: {Negative, Zero, Overflow, CarryOut}
-                          # Puedes dividir este byte si prefieres mostrar cada bandera por separado
+  # Bidirectional pins
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
+
 
 # Do not change!
 yaml_version: 6
