@@ -1,40 +1,40 @@
-module ALU_Top (
-    input  wire [6:0] sw,       // sw[6:0] => B
-    input  wire [3:0] btn,      // btn[2:0] => OpSel, btn[3] => reset
-    input  wire [6:0] A_input,  // Entrada adicional (p. ej. desde switches extra o constante)
-    output wire [6:0] led,      // Resultado
-    output wire       CarryOut,
-    output wire       Overflow,
-    output wire       Zero,
-    output wire       Negative
-);
-    wire [6:0] A, B;
-    wire [2:0] OpSel;
-    wire rst;
+module ALU_Top;
 
-    assign A     = A_input;
-    assign B     = sw;
-    assign OpSel = btn[2:0];
-    assign rst   = btn[3];
+    // Entradas de prueba
+    reg  [6:0] A;
+    reg  [6:0] B;
+    reg  [2:0] OpSel;
 
-    wire [6:0] result;
-    wire co, ov, z, n;
+    // Salidas
+    wire [6:0] Result;
+    wire       CarryOut;
+    wire       Overflow;
+    wire       Zero;
+    wire       Negative;
 
-    ALU alu_unit (
+    // Instancia de la ALU
+    ALU alu_inst (
         .A(A),
         .B(B),
         .OpSel(OpSel),
-        .Result(result),
-        .CarryOut(co),
-        .Overflow(ov),
-        .Zero(z),
-        .Negative(n)
+        .Result(Result),
+        .CarryOut(CarryOut),
+        .Overflow(Overflow),
+        .Zero(Zero),
+        .Negative(Negative)
     );
 
-    assign led       = result;
-    assign CarryOut  = co;
-    assign Overflow  = ov;
-    assign Zero      = z;
-    assign Negative  = n;
+    // Proceso de estimulación (se puede modificar en el testbench)
+    initial begin
+        // Ejemplo de pruebas secuenciales
+        A = 7'd10; B = 7'd5; OpSel = 3'b000; #10; // Suma
+        A = 7'd10; B = 7'd5; OpSel = 3'b001; #10; // Resta
+        A = 7'b1010101; B = 7'b0101010; OpSel = 3'b010; #10; // AND
+        A = 7'b1010101; B = 7'b0101010; OpSel = 3'b011; #10; // OR
+        B = 7'd4; OpSel = 3'b100; #10; // Shift Left
+        B = 7'd8; OpSel = 3'b101; #10; // Shift Right
+
+        $finish; // Terminar simulación
+    end
 
 endmodule
