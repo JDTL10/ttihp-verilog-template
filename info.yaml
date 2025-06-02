@@ -1,9 +1,9 @@
 # Tiny Tapeout project information
 project:
-  title:        "ALU"
+  title:        "ALU Compacta"
   author:       "JDTL10"
   discord:      ""
-  description:  "ALU con 5 operaciones básicas"
+  description:  "ALU compacta 4+4 bits con selección de operación embebida y salida de flags"
   language:     "Verilog"
   clock_hz:     0
 
@@ -12,43 +12,37 @@ project:
 
   source_files:
     - "ALU.v"
-    - "Sum_7bit.v"
-    - "Rest_7bit.v"
-    - "Funcion_AND.v"
-    - "Funcion_OR.v"
-    - "Shift_Left.v"
-    - "Shift_Right.v"
     - "tt_um_JDTL10.v"
 
 pinout:
-  # Inputs (ui_in)
-  ui[0]: "B0"
-  ui[1]: "B1"
-  ui[2]: "B2"
-  ui[3]: "B3"
-  ui[4]: "B4"
-  ui[5]: "OpSel0"
-  ui[6]: "OpSel1"
-  ui[7]: "OpSel2"
+  # Inputs (ui_in → 8 bits)
+  ui[0]: "A0"          # Operando A bit 0 (también OpSel LSB)
+  ui[1]: "A1"          # Operando A bit 1 (también OpSel MSB)
+  ui[2]: "A2"          # Operando A bit 2
+  ui[3]: "A3"          # Operando A bit 3
+  ui[4]: "B0"          # Operando B bit 0
+  ui[5]: "B1"          # Operando B bit 1
+  ui[6]: "B2"          # Operando B bit 2
+  ui[7]: "B3"          # Operando B bit 3
 
-  # Outputs (uo_out)
-  uo[0]: "Result0"
-  uo[1]: "Result1"
-  uo[2]: "Result2"
-  uo[3]: "Result3"
-  uo[4]: "Result4"
-  uo[5]: "Result5"
-  uo[6]: "Result6"
-  uo[7]: "CarryOut"
+  # Outputs (uo_out → 8 bits)
+  uo[0]: "Result0"     # Resultado bit 0 (LSB)
+  uo[1]: "Result1"     # Resultado bit 1
+  uo[2]: "Result2"     # Resultado bit 2
+  uo[3]: "Result3"     # Resultado bit 3 (MSB)
+  uo[4]: "CarryOut"    # Flag de acarreo
+  uo[5]: "Overflow"    # Flag de desbordamiento
+  uo[6]: "Zero"        # Flag de resultado cero
+  uo[7]: "Negative"    # Flag de resultado negativo
 
-  # Bidirectional pins (uio_in / uio_out)
-  uio[0]: "A0"
-  uio[1]: "A1"
-  uio[2]: "A2"
-  uio[3]: "A3"
-  uio[4]: "A4"
-  uio[5]: "A5"
-  uio[6]: "A6"
+  # Bidirectional pins (no usados)
+  uio[0]: ""
+  uio[1]: ""
+  uio[2]: ""
+  uio[3]: ""
+  uio[4]: ""
+  uio[5]: ""
+  uio[6]: ""
   uio[7]: ""
 
 yaml_version: 6
