@@ -143,7 +143,7 @@ module ALU (
 
     assign Zero     = (Result == 7'b0);
     assign Negative = Result[6];
-endmodule
+    
         Zero = (Result == 7'b0000000);
         Negative = Result[6];
     end
